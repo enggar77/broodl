@@ -1,14 +1,14 @@
 # Broodl - Track your daily mood
 
-Demo :
+Demo : https://broodl-lilac-kappa.vercel.app/
 
 ## Screenshots
 
--   Homepage:
+-   Homepage
 
 <img src="home.png" alt="Home Page" width="768" height="auto">
 
--   Login page:
+-   Login page
 
 <img src="login.png" alt="Login Page" width="768" height="auto">
 
