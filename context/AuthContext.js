@@ -1,8 +1,13 @@
-"use client";
-import { auth, db } from "@/firebase";
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import React, { useContext, useState, useEffect } from "react";
+'use client';
+import { auth, db } from '@/firebase';
+import {
+	createUserWithEmailAndPassword,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
+	signOut,
+} from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import React, { useContext, useState, useEffect } from 'react';
 
 const AuthContext = React.createContext();
 
@@ -14,7 +19,6 @@ export function AuthProvider({ children }) {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [userDataObj, setUserDataObj] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
 
 	// AUTH HANDLERS
 	function signup(email, password) {
@@ -22,13 +26,7 @@ export function AuthProvider({ children }) {
 	}
 
 	async function login(email, password) {
-		try {
-			setError(null);
-			await signInWithEmailAndPassword(auth, email, password);
-		} catch (err) {
-			setError("An error occurred. Please try again.");
-			console.error(err.message);
-		}
+		await signInWithEmailAndPassword(auth, email, password);
 	}
 
 	function logout() {
@@ -44,17 +42,17 @@ export function AuthProvider({ children }) {
 				setLoading(true);
 				setCurrentUser(user);
 				if (!user) {
-					console.log("No User Found");
+					console.log('No User Found');
 					return;
 				}
 
 				// if user exists, fetch data from firestore database
-				console.log("Fetching User Data");
-				const docRef = doc(db, "users", user.uid);
+				console.log('Fetching User Data');
+				const docRef = doc(db, 'users', user.uid);
 				const docSnap = await getDoc(docRef);
 				let firebaseData = {};
 				if (docSnap.exists()) {
-					console.log("Found User Data");
+					console.log('Found User Data');
 					firebaseData = docSnap.data();
 				}
 				setUserDataObj(firebaseData);
@@ -75,8 +73,9 @@ export function AuthProvider({ children }) {
 		logout,
 		login,
 		loading,
-		error,
 	};
 
-	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+	return (
+		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+	);
 }
